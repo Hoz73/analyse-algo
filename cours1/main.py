@@ -73,8 +73,9 @@ def problem3(file_name: str): #TODO ne maaaaarche paaaaaas, le tri du fichier ma
         res[i] = distributeurs
         print(res[i])
         print('')
-
     print(res)
+
+
 
 
 # Press the green button in the gutter to run the script.
@@ -84,6 +85,6 @@ if __name__ == '__main__':
     # problem1("test100.txt")
     # problem1("test100000.txt")
     # problem2("inputs.txt")
-    problem3("small_input_problem3.txt")
+    #problem3("small_input_problem3.txt")
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

@@ -86,7 +86,6 @@ def kruskal(villes, nb_villes):
                 if tab_pointeur[plus_petit] is None:
                     tab_pointeur[plus_petit] = tab_pointeur[plus_grand]
                 else:
-
                     min_p = min(tab_pointeur[plus_grand], tab_pointeur[plus_petit])
                     max_p = max(tab_pointeur[plus_grand], tab_pointeur[plus_petit])
                     index = tab_pointeur[plus_grand]
@@ -94,14 +93,12 @@ def kruskal(villes, nb_villes):
                         if tab_pointeur[val] == max_p:
                             tab_pointeur[val] = min_p
                     tab_pointeur[index] = min_p
+            res.append(element)
     print(tab_pointeur)
-        # if (element['ville_a'] not in res_a) or (element['ville_b'] not in res_a):
-        #     res_a.append(element['ville_a'])
-        #     res_a.append(element['ville_b'])
-        #     res.append(element)
-            # print(f' ville_a : {element["ville_a"]}, '
-            #       f'ville_b : {element["ville_b"]},'
-            #       f' distance: {element["distance"]}')
+    for element in res:
+        print(f' ville_a : {element["ville_a"]}, '
+              f'ville_b : {element["ville_b"]},'
+              f' distance: {element["distance"]}')
 
 
 # Press the green button in the gutter to run the script.

@@ -118,6 +118,7 @@ def kruskal(villes, nb_villes):
     result = []
     parcour_profondeur(res, arbre, arbre.racine, visited, result)  # O(size(n))
     distance_minimal = 0
+    # result.append(arbre.racine)
     for i in range(0, len(result) - 1):  # O(size(n))
         distance_minimal = distance_minimal + get_distance(villes, result[i], result[i + 1])  # O(size(n))
     print(f'La distance minimale est : {distance_minimal}')

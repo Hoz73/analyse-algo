@@ -21,10 +21,12 @@ class Arbre:
     nodes = []
 
 
+# complexity O(1)
 def distance(ville_a: Ville, ville_b: Ville) -> float:
     return math.sqrt(pow(ville_b.cord_x - ville_a.cord_x, 2) + pow(ville_b.cord_y - ville_a.cord_y, 2))
 
 
+# complexity O(size(n))
 def read_cities(file_name):
     file = open(file_name, "r")
     addresses = []
@@ -40,40 +42,43 @@ def read_cities(file_name):
     result = {'addresses': addresses, 'nb_villes': id}
     return result
 
+
+# complexity O(size(n)) worst scenario
+# complexity O(1) best scenario
 def get_distance(villes, ville_a, ville_b):
     for elem in villes:
-        if(elem['ville_a'] == ville_a and elem['ville_b'] == ville_b) or (elem['ville_a'] == ville_b and elem['ville_b'] == ville_a) :
+        if (elem['ville_a'] == ville_a and elem['ville_b'] == ville_b) or (
+                elem['ville_a'] == ville_b and elem['ville_b'] == ville_a):
             return elem['distance']
 
+
+# complexity O(n*n)
 def distances_between_cities(file_name):
-    res = read_cities(file_name)
+    res = read_cities(file_name)  # O(size(file_name))
     villes = res['addresses']
     villes_calculees = []
-    for ville_a in villes:
-        for ville_b in villes:
+    for ville_a in villes:  # O(size(villes))
+        for ville_b in villes:  # O(size(villes))
             if ville_a is not ville_b:
                 villes_calculees.append(
                     {'ville_a': ville_a.id,
                      'ville_b': ville_b.id,
                      'distance': distance(ville_a, ville_b)})
 
-    villes_calculees = sorted(villes_calculees, key=lambda dct: dct['distance'])
+    villes_calculees = sorted(villes_calculees, key=lambda dct: dct['distance'])  # O(n log n)
     result = []
-    for i in range(0, len(villes_calculees)):
+    for i in range(0, len(villes_calculees)):  # O(size(villes_calculees))
         if i % 2 == 0:
             result.append(villes_calculees[i])
     return result, res
 
-def problem_one(file_name):
-    result, res = distances_between_cities(file_name)
-    kruskal(result, res['nb_villes'])
 
-
+# complexity O(n*n)
 def kruskal(villes, nb_villes):
     res = []
     voisins = [''] * nb_villes
     tab_pointeur = [None] * nb_villes
-    for i in villes:
+    for i in villes:  # O(size(villes))
         plus_grand = max(i['ville_a'], i['ville_b'])
         plus_petit = min(i['ville_a'], i['ville_b'])
         if (tab_pointeur[plus_grand] == plus_petit and tab_pointeur[plus_grand] is not None) or \
@@ -95,7 +100,7 @@ def kruskal(villes, nb_villes):
                     min_p = min(tab_pointeur[plus_grand], tab_pointeur[plus_petit])
                     max_p = max(tab_pointeur[plus_grand], tab_pointeur[plus_petit])
                     index = tab_pointeur[plus_grand]
-                    for val in range(0, len(tab_pointeur)):
+                    for val in range(0, len(tab_pointeur)):  # O(size(n))
                         if tab_pointeur[val] == max_p:
                             tab_pointeur[val] = min_p
                     tab_pointeur[index] = min_p
@@ -103,23 +108,23 @@ def kruskal(villes, nb_villes):
             voisins[i["ville_b"]] = voisins[i["ville_b"]] + str(i["ville_a"]) + "/"
             res.append(i)
 
-    for i in range(0, len(res)):
+    for i in range(0, len(res)):  # O(size(n))
         print(f' ville_a : {res[i]["ville_a"]}, '
               f'ville_b : {res[i]["ville_b"]},'
               f' distance: {res[i]["distance"]}')
     print("***********************")
     arbre = creer_arbre(voisins)
-    visited = [None] * (nb_villes+1)
+    visited = [None] * (nb_villes + 1)
     result = []
-    parcour_profondeur(res, arbre, arbre.racine, visited, result)
+    parcour_profondeur(res, arbre, arbre.racine, visited, result)  # O(size(n))
     distance_minimal = 0
-    for i in range(0, len(result) - 1):
-        distance_minimal = distance_minimal + get_distance(villes, result[i], result[i+1])
+    for i in range(0, len(result) - 1):  # O(size(n))
+        distance_minimal = distance_minimal + get_distance(villes, result[i], result[i + 1])  # O(size(n))
     print(f'La distance minimale est : {distance_minimal}')
     print(result)
 
 
-
+# O(n log n)
 def creer_arbre(voisins):
     arbre = Arbre()
     arbre.racine = 0
@@ -134,10 +139,16 @@ def creer_arbre(voisins):
     return arbre
 
 
+# complexity O(size(n))
 def parcour_profondeur(res, arbre: Arbre, racine, visited, result):
     if None in visited:
         if visited[racine] is None:
             result.append(racine)
             visited[racine] = 'visited'
-            for i in range(0, len(arbre.nodes[racine].voisins)):
+            for i in range(0, len(arbre.nodes[racine].voisins)):  # O(size(n))
                 parcour_profondeur(res, arbre, int(arbre.nodes[racine].voisins[i]), visited, result)
+
+# complexity O(n*n)
+def problem_one(file_name):
+    result, res = distances_between_cities(file_name)
+    kruskal(result, res['nb_villes'])

@@ -3,18 +3,22 @@ from question_one import distances_between_cities
 from question_one import get_distance
 
 file_name = 'Cities10.txt'
-VILLES, res = distances_between_cities(file_name)
-NB_VILLE = res['nb_villes']
+VILLES, nb_villes = distances_between_cities(file_name)
+NB_VILLE = nb_villes
 
 VILLES_CALCULEES = []
 
 
+# complexity O(size(n)) worst scenario
+# complexity O(1) best scenario
 def min_livraison_non_ville(start, end):
     distance = get_distance(VILLES, start, end)
     print(f'the distance between {start} and {end} is {distance}')
     return {'start': start, 'end': end, 'passing_by': [], 'distance': distance}
 
 
+# complexity O(size(n)) worst scenario
+# complexity O(1) best scenario
 def min_livraison_une_ville(start, end, villes):
     min_distance = get_distance(VILLES, start, villes[0]) + get_distance(VILLES, villes[0], end)
     print(
@@ -23,6 +27,7 @@ def min_livraison_une_ville(start, end, villes):
     return {'start': start, 'end': end, 'passing_by': [villes[0]], 'distance': min_distance}
 
 
+# complexity O(n log n)
 def check_if_calculated(start, end, villes):
     for element in VILLES_CALCULEES:
         if len(element['passing_by']) == len(villes):
@@ -35,25 +40,25 @@ def check_if_calculated(start, end, villes):
                     return element
     return None
 
-
+# complexity factorial
 def min_livraison_plusieurs_villes(start, end, villes):
     if len(villes) == 1:
         print(start, end, villes)
-        result = check_if_calculated(start, end, villes)
+        result = check_if_calculated(start, end, villes)  # O(n log n)
         if result is not None:
             print(f'already exist : {result}')
             return result['distance']
         else:
-            result = min_livraison_une_ville(start, end, villes)
+            result = min_livraison_une_ville(start, end, villes)  # O(size(n))
             VILLES_CALCULEES.append(result)
             print(f'{result}')
             return result['distance']
     else:
-        result = check_if_calculated(start, end, villes)
+        result = check_if_calculated(start, end, villes) # O(n log n)
         if result is not None:
             distance = result['distance']
         else:
-            res = min_livraison_non_ville(villes[-1], end)
+            res = min_livraison_non_ville(villes[-1], end) # O(size(n))
             VILLES_CALCULEES.append(res)
             distance = res['distance']
         print(f'start : {start}, end : {end}, villes :{villes}')
@@ -63,6 +68,8 @@ def min_livraison_plusieurs_villes(start, end, villes):
 
 # Complexity factorial
 def problem_two(start, end, villes):
+    if len(villes) == 0:
+        return min_livraison_non_ville(start, end)
     result = list(permutations(villes))
     final_reults = []
     cities = []

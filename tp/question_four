@@ -1,8 +1,0 @@
-Le but est de trouver un seul et unique cycle pour parcourir toutes les villes avec un distance minimale
--> Donc, en faisant la somme des poids des arêtes de notre graphe nous obtenons la ditance minimum nécessaire pour notre cycle
--> on considère qu'on ne peut venir que par un chemin
--> on ne peut partir que pas un autre chemin différent
--> on considère Q un sous-enssemble de {0,...,n} avec Q >= 2, il y a donc forcément moins d'arêtes que la taille du sous-enssemble, soit, il n'y a pas de cycle plus petit dans le sous enssemble
-
-
-Résoudre ce problème c'est résoudre notre problème, car on s'assure d'avoir le nombre d'arêtes minimum popur notre cycle tout en conservant une distance totale minimum
